@@ -28,3 +28,16 @@ bool Math::WorldToScreen(ImVec3 pos, ImVec3& screen, float matrix[16], int windo
     screen.y = -(windowHeight / 2 * NDC.y) + (NDC.y + windowHeight / 2);
     return true;
 }
+
+ImVec3 Math::GrenadePredict(ImVec3 from, ImVec3 to, ImVec3 vel, ImVec2 angle) {
+    float grenadeSpeed = 4;
+
+    float dist = from.DistTo(to);
+
+    ImVec3 angles = ImVec3(angle.y, angle.x - 90, 0);
+    ImVec3 endPoint = to.Transform(angles, dist / 5);
+
+    ImVec3 pos = ImVec3(endPoint.x + (vel.x * 3), endPoint.y + (vel.y * 3), endPoint.z + dist / 1.4 / grenadeSpeed);
+
+    return pos;
+}

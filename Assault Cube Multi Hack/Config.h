@@ -10,8 +10,7 @@ namespace Config
 		inline bool filledBoxESP = false;
 		inline bool tracerESP = false;
 		inline bool headESP = false;
-		inline bool healthBarESP = false;
-		inline bool distanceESP = false;
+		inline bool barESP = false;
 		inline bool rotLinesESP = false;
 
 		inline ImColor friendlyColor = ImColor(0, 0, 255);
@@ -29,11 +28,15 @@ namespace Config
 		inline bool targetTeam = true;
 
 		inline bool drawFOVCircle = false;
-		inline bool drawFilledFOVCircle = false;
 		inline float aimbotFOV = 60;
 		inline ImColor circleColor = ImColor(255, 255, 255);
 		inline ImColor circleFilledColor = ImColor(255, 255, 255, 30);
 
 		inline uintptr_t aimbotKey = VK_LCONTROL;
+	}
+
+	namespace TriggerBot
+	{
+		inline bool triggerBotON = false;
 	}
 }

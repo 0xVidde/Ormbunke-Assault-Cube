@@ -6,6 +6,9 @@
 
 #include "Config.h"
 
+typedef Entity* (__cdecl* tGetCrossHairEnt)();
+tGetCrossHairEnt GetCrossHairEnt = nullptr;
+
 Entity* Entity::GetLocal() {
 	uintptr_t modBase = (uintptr_t)GetModuleHandle(L"ac_client.exe");
 	Entity* p = (Entity*)*(uintptr_t*)(modBase + 0x10F4F4);
@@ -110,10 +113,8 @@ void Entity::AimAt(ImVec3 aimPos) {
     this->viewAngles.y = angle.y;
 }
 
-void Entity::GrenadeAimAt(ImVec3 aimPos) {
-    float dist = this->headPosition.DistTo(aimPos);
-    ImVec3 pos = aimPos + ImVec3(0, 0, dist / 3.2);
-    ImVec2 angle = Math::CalcAngle(this->headPosition, pos);
+void Entity::GrenadeAimAt(Entity* target) {
+    ImVec2 angle = Math::CalcAngle(this->headPosition, Math::GrenadePredict(this->headPosition, target->headPosition, target->velocity, target->viewAngles));
 
     this->viewAngles.x = angle.x + 180;
     this->viewAngles.y = angle.y;
@@ -121,7 +122,7 @@ void Entity::GrenadeAimAt(ImVec3 aimPos) {
 
 bool Entity::IsVisible() {
     uintptr_t traceLine = 0x048A310;
-    _trace_result traceresult;
+    TraceResult traceresult;
     traceresult.collided = false;
 
     Entity* localPlayer = this->GetLocal();
@@ -156,4 +157,11 @@ ViewMatrix Entity::GetMatrix() {
     }
 
     return matrix;
+}
+
+Entity* Entity::GetEntityUnderCrossHair() {
+    uintptr_t modBase = (uintptr_t)GetModuleHandle(L"ac_client.exe");
+    GetCrossHairEnt = (tGetCrossHairEnt)(modBase + 0x0607C0);
+
+    return GetCrossHairEnt();
 }

@@ -188,6 +188,7 @@
     <ClInclude Include="Includes\kiero\minhook\src\trampoline.h" />
     <ClInclude Include="Math\Math.h" />
     <ClInclude Include="Utilities.h" />
+    <ClInclude Include="WeapondEnum.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
